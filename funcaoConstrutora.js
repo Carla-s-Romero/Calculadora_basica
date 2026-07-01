@@ -6,17 +6,21 @@ function Calculator() {
         this.click();
         this.pressionaEnter();
         this.substituirX();
+        this.validarTeclado();
     };
 
     this.substituirX = () => {
         this.display.addEventListener('input', () => {
-            this.display.value = this.display.value.replace(/x/gi, '*');
+            const valor = this.display.value.replace(/x/gi, '*');
+            const valorSanitizado = valor.replace(/[^0-9+\-*/().,\s]/g, '');
+            this.display.value = valorSanitizado;
         });
     };
 
     this.pressionaEnter = () => {
-        this.display.addEventListener('keyup', (e) => {
-            if (e.keyCode === 13) {
+        this.display.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
                 this.realizarContas();
             }
         });
@@ -24,6 +28,31 @@ function Calculator() {
 
     this.validarEntrada = (entrada) => {
         return this.caracteresPermitidos.test(entrada);
+    };
+
+    this.validarTeclado = () => {
+        this.display.addEventListener('keydown', (e) => {
+            const teclasPermitidas = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab', 'Enter', 'Escape', 'Home', 'End'];
+
+            if (teclasPermitidas.includes(e.key) || e.ctrlKey || e.metaKey) {
+                return;
+            }
+
+            if (!this.validarEntrada(e.key)) {
+                e.preventDefault();
+            }
+        });
+
+        this.display.addEventListener('paste', (e) => {
+            const texto = e.clipboardData?.getData('text') || '';
+            const textoSanitizado = texto.replace(/x/gi, '*').replace(/[^0-9+\-*/().,\s]/g, '');
+
+            if (texto !== textoSanitizado) {
+                e.preventDefault();
+                this.display.value += textoSanitizado;
+                this.display.focus();
+            }
+        });
     };
 
     this.realizarContas = () => {
