@@ -1,0 +1,28 @@
+*{ 
+    margin: 0%;
+    padding: 0%;
+    box-sizing: border-box;
+}
+
+.Calculadora{
+    width: 400px;
+}
+
+.display{
+    font-size: 2em;
+    width: 100%;
+    text-align: right;
+}
+
+.btn{
+    width: 100%;
+    height: 50px;
+    font-size: 1em;
+    border: none;
+    background-color: #DFDFDF;
+    cursor: pointer;
+}
+
+.btn:hover{
+    background-color: #aaaaaa;
+}
