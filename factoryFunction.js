@@ -4,6 +4,7 @@ function calcular() {
         caracteresPermitidos: /^[0-9+\-*/().,\s]*$/,
 
         inicia() {
+            this.display.focus();
             this.click()
             this.pressionaEnter();
             this.substituirX();
@@ -40,8 +41,10 @@ function calcular() {
                 }
 
                 this.display.value = String(resultado)
+                this.display.focus();
             } catch {
                 alert('Expressão matemática inválida');
+                this.display.focus();
                 return;
             }
         },
@@ -49,11 +52,13 @@ function calcular() {
 
         clearDisplay() {
             this.display.value = "";
+            this.display.focus();
         },
 
         deleteOne() {
             const novoValor = this.display.value.slice(0, -1);
             this.display.value = novoValor;
+            this.display.focus();
         },
 
         click() {
@@ -69,6 +74,8 @@ function calcular() {
                 } else if (el.classList.contains('btn')) {
                     this.btnParaDisplay(el.innerText);
                 }
+
+                this.display.focus();
             })
         },
 

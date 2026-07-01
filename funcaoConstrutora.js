@@ -69,7 +69,10 @@ function Calculator() {
         });
     };
 
-    this.addNumberDisplay = (el) => this.display.value += el.innerText
+    this.addNumberDisplay = (el) => {
+        this.display.value += el.innerText;
+        this.display.focus();
+    };
 }
 
 const calculadora = new Calculator();
