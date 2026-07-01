@@ -1,10 +1,18 @@
 function calcular() {
     return {
         display: document.querySelector('.display'),
+        caracteresPermitidos: /^[0-9+\-*/().,\s]*$/,
 
         inicia() {
             this.click()
             this.pressionaEnter();
+            this.substituirX();
+        },
+
+        substituirX() {
+            this.display.addEventListener('input', (e) => {
+                this.display.value = this.display.value.replace(/x/gi, '*');
+            })
         },
 
         pressionaEnter() {
@@ -15,21 +23,25 @@ function calcular() {
             })
         },
 
+        validarEntrada(entrada) {
+            return this.caracteresPermitidos.test(entrada);
+        },
 
         realizarContas() { 
-            let conta = this.display.value
+            let conta = this.display.value.trim();
             
             try{
-                conta = eval(conta);
+                conta = conta.replace(/X/g, '*');
+                const resultado = eval(conta);
 
-                if(!conta) {
-                    alert('conta invalida')
+                if (resultado === null || resultado === undefined) {
+                    alert('Expressão inválida');
                     return;
                 }
 
-                this.display.value = String(conta)
+                this.display.value = String(resultado)
             } catch {
-                alert('conta invalida');
+                alert('Expressão matemática inválida');
                 return;
             }
         },
